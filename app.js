@@ -53,7 +53,7 @@ MongoClient.connect('mongodb://localhost:27017/siji_invited', function (err, db)
                 // if in idlist length
                 if (visitedNumber <= 117) {
                     //  calculate this user's id then return to client
-                    db.collection("userList").find({"visitedNumber": {$exists: 1}}).toArray(function (err, docs) {
+                    db.collection("userList").find({"userList": {$exists: 1}}).toArray(function (err, docs) {
                         var userList = docs[0]["userList"];
                         var userid = userList[visitedNumber];
 
