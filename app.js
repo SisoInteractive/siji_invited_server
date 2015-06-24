@@ -8,7 +8,7 @@ server.listen(89, '120.26.48.94');
 console.log('Server running at 120.26.48.94:89');
 
 //  connect to mongo
-MongoClient.connect('mongodb://localhost:27017/sijishangdong', function (err, db) {
+MongoClient.connect('mongodb://localhost:27017/siji_invited', function (err, db) {
     if (err) throw err;
 	console.log('connected to mongo');
 
@@ -48,13 +48,17 @@ MongoClient.connect('mongodb://localhost:27017/sijishangdong', function (err, db
             //  query visitedNumber
             db.collection("visitedNumber").find({"visitedNumber": {$exists: 1}}).toArray(function (err, docs) {
                 visitedNumber = docs[0]['visitedNumber'];
+                console.log('visited number: ', visitedNumber);
 
                 // if in idlist length
                 if (visitedNumber <= 117) {
                     //  calculate this user's id then return to client
                     db.collection("userList").find({"visitedNumber": {$exists: 1}}).toArray(function (err, docs) {
                         var userList = docs[0]["userList"];
-                        that.emit('returnedId', visitedNumber);
+                        var userid = userList[visitedNumber];
+
+                        console.log('got id: ', userid);
+                        that.emit('returnedId', userid);
                     });
                 } else {
                     that.emit('returnedId', "发放结束");
